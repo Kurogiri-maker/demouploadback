@@ -22,8 +22,8 @@ public class TiersServiceImpl implements TiersService {
 
     @Override
     public Tiers save(Tiers tiers) {
-        Tiers tiers1 = tiersRepo.save(tiers);
-        return tiers1;
+
+        return tiersRepo.save(tiers);
     }
 
     @Override

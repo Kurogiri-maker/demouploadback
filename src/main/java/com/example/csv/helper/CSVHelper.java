@@ -54,6 +54,7 @@ public class CSVHelper {
 
             for (CSVRecord csvRecord : csvRecords) {
                 Contrat contrat = new Contrat(
+                        null,
                         csvRecord.get("Num_dossierKPS"),
                         csvRecord.get("Num_CP"),
                         csvRecord.get("Raison_Social"),
