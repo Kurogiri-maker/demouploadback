@@ -12,7 +12,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Dossier {
 
     @Id
@@ -24,11 +24,5 @@ public class Dossier {
     private String n_DPS;
     private String montant_du_pres;
 
-    public Dossier(String dossier_DC, String numero, String listSDC, String n_DPS, String montant_du_pres) {
-        this.dossier_DC = dossier_DC;
-        this.numero = numero;
-        this.listSDC = listSDC;
-        this.n_DPS = n_DPS;
-        this.montant_du_pres = montant_du_pres;
-    }
+
 }
