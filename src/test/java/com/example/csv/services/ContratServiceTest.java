@@ -7,9 +7,7 @@ import com.example.csv.services.implementation.ContratServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Arrays;
 import org.junit.Rule;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.rules.ExpectedException;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,9 @@ import static org.mockito.Mockito.*;
 
 
 @SpringBootTest
+
 @Slf4j
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ContratServiceTest {
 
 
@@ -36,9 +36,10 @@ class ContratServiceTest {
     @Autowired
     private ContratService contratService ;
     @Test
+    @Order(1)
     void save() {
         int size = contratService.getAllContrat().size();
-int expected = size+1;
+        int expected = size+1;
         //given
 
         Contrat contrat = new Contrat(
@@ -63,7 +64,7 @@ int expected = size+1;
                 "phase",
                 "montant_pret");
 
-       //then
+        //then
         contratService.save(contrat);
 
 
@@ -115,11 +116,11 @@ int expected = size+1;
 
 
 
-     // Contrat c = contratService.getContrat(0L);
+        // Contrat c = contratService.getContrat(0L);
 
 
         // Assert
-       // assertEquals(contrats.get(0),c);
+        // assertEquals(contrats.get(0),c);
 
         assertEquals(expected,contratService.getAllContrat().size());
         //log
@@ -197,7 +198,7 @@ int expected = size+1;
                 "montant_pret");
 
         //then
-       Contrat c= contratService.save(contrat);
+        Contrat c= contratService.save(contrat);
 
         Long id_expected = c.getId();
 
@@ -210,37 +211,17 @@ int expected = size+1;
     }
 
     @Test
+    @Order(2)
     void delete() {
-        int size = contratService.getAllContrat().size();
-
-        Contrat contrat = new Contrat(
-                null,
-                "num_dossier",
-                "num_cp",
-                "raison_Social",
-                "id_Tiers",
-                "num_dc",
-                "num_sdc",
-                "num_cir",
-                "num_siren",
-                "ref_coll",
-                "code_produit",
-                "id_de_offre_comm",
-                "chef_de_file",
-                "num_ovi",
-                "num_rum",
-                "typeenregie",
-                "produit_comm",
-                "produit",
-                "phase",
-                "montant_pret");
-
-        //then
-        Contrat c= contratService.save(contrat);
-log.info("contrat size : "+contratService.getAllContrat().size());
 
 
-        Long id= contratService.getContrat(c.getId()).getId();
+        List<Contrat> contrats = contratService.getAllContrat();
+        int size = contrats.size();
+        log.info("contrat size : "+size);
+        Contrat contrat = contrats.get(0);
+
+
+        Long id= contrat.getId();
 
         contratService.delete(id);
         log.info("contrat size : "+contratService.getAllContrat().size());
