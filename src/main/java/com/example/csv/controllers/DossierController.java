@@ -90,6 +90,9 @@ public class DossierController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+  }
+
     @CrossOrigin
     @PatchMapping("/edit")
     public ResponseEntity<Void> updateDossier(@RequestBody Dossier dossier){
@@ -102,3 +105,4 @@ public class DossierController {
 
 
 }
+

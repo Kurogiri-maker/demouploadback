@@ -17,6 +17,8 @@ public interface DossierService {
     void delete(Long id);
 
     Dossier save(Dossier dossier);
+
     boolean update(Dossier dossier);
+
 
 }

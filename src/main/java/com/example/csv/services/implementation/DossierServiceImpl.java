@@ -50,6 +50,7 @@ public class DossierServiceImpl implements DossierService {
         return dossier1;
     }
 
+
     @Override
     public boolean update(Dossier updatedDossier) {
         Dossier toUpdate = dosRepo.findById(updatedDossier.getId()).orElse(null);
@@ -59,6 +60,7 @@ public class DossierServiceImpl implements DossierService {
         dosRepo.save(updatedDossier);
         return true;
     }
+
 
 
 }

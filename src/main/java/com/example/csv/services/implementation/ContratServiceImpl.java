@@ -24,8 +24,8 @@ public class ContratServiceImpl implements ContratService {
 
     @Override
     public Contrat save(Contrat contrat) {
-        Contrat contrat1 = contratRepo.save(contrat);
-        return contrat1;
+        contratRepo.save(contrat);
+        return contrat;
     }
 
     @Override
@@ -34,12 +34,13 @@ public class ContratServiceImpl implements ContratService {
         try {
             List<Contrat> contrats = CSVHelper.csvToContrats(file.getInputStream());
             contratRepo.saveAll(contrats);
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
-    public List<Contrat> getAllContrat() {
+        public List<Contrat> getAllContrat() {
         return contratRepo.findAll();
     }
 

@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface TiersService {
+    public List<Tiers> searchTiers(String numero, String nom, String siren, String refMandat);
 
     Tiers save(Tiers tiers);
 
@@ -18,5 +19,7 @@ public interface TiersService {
     void delete(Long id);
 
 
+
     boolean update(Tiers tiers);
+
 }

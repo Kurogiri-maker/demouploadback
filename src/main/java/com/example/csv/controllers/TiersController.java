@@ -25,6 +25,17 @@ public class TiersController {
     @Autowired
     private final TiersService fileService;
     @CrossOrigin
+
+
+    @GetMapping("/Search")
+    public List<Tiers> searchTiers(@RequestParam(required = false) String numero,
+                                   @RequestParam(required = false) String nom,
+                                   @RequestParam(required = false) String siren,
+                                   @RequestParam(required = false) String refMandat) {
+        return fileService.searchTiers(numero, nom, siren, refMandat);
+    }
+
+    @CrossOrigin
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file)  {
         String message = "";
@@ -90,6 +101,7 @@ public class TiersController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     @CrossOrigin
     @PatchMapping("/edit")
     public ResponseEntity<Void> updateTiers(@RequestBody Tiers tiers){
@@ -99,6 +111,7 @@ public class TiersController {
 
 
     }
+
 
 
 
