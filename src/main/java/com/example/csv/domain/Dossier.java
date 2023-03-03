@@ -12,6 +12,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class Dossier {
 

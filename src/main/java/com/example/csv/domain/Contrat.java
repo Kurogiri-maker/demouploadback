@@ -2,6 +2,7 @@ package com.example.csv.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class Contrat {
 
@@ -35,6 +37,5 @@ public class Contrat {
     private String Produit;
     private String Phase;
     private String Montant_pret;
-
 
 }

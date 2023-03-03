@@ -2,6 +2,7 @@ package com.example.csv.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class Tiers {
 
@@ -20,8 +22,5 @@ public class Tiers {
     private String nom;
     private String siren;
     private String ref_mandat;
-
-
-
 
 }

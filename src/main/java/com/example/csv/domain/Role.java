@@ -1,6 +1,6 @@
 package com.example.csv.domain;
 
 public enum Role {
-    USER,
+    CONSULTANT,
     ADMIN
 }
