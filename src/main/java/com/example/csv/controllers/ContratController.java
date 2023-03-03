@@ -1,6 +1,7 @@
 package com.example.csv.controllers;
 
 import com.example.csv.domain.Contrat;
+import com.example.csv.domain.Dossier;
 import com.example.csv.domain.ResponseMessage;
 import com.example.csv.domain.Tiers;
 import com.example.csv.helper.CSVHelper;
@@ -61,7 +62,7 @@ public class ContratController {
     }
 
     @CrossOrigin
-    @GetMapping("/contrats")
+    @GetMapping
 
     public ResponseEntity<List<Contrat>> getAllContrat() {
         try {
@@ -95,6 +96,13 @@ public class ContratController {
         }
         fileService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @CrossOrigin
+    @PatchMapping("/edit")
+    public ResponseEntity<Void> updateContrat(@RequestBody Contrat contrat){
+
+        boolean updated = fileService.update(contrat);
+        return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

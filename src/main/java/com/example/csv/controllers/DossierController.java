@@ -90,4 +90,19 @@ public class DossierController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
   }
+
+    @CrossOrigin
+    @PatchMapping("/edit")
+    public ResponseEntity<Void> updateDossier(@RequestBody Dossier dossier){
+
+        boolean updated = fileService.update(dossier);
+        return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
+    }
+
+
+}
+

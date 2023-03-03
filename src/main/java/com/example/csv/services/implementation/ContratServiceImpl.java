@@ -1,6 +1,7 @@
 package com.example.csv.services.implementation;
 
 import com.example.csv.domain.Contrat;
+import com.example.csv.domain.Dossier;
 import com.example.csv.domain.Tiers;
 import com.example.csv.helper.CSVHelper;
 import com.example.csv.repositories.ContratRepository;
@@ -51,6 +52,15 @@ public class ContratServiceImpl implements ContratService {
     @Override
     public void delete(Long id) {
         contratRepo.deleteById(id);
+    }
+
+    @Override
+    public boolean update(Contrat updatedContrat) {
+        Contrat toUpdate = contratRepo.findById(updatedContrat.getId()).orElse(null);
+        if (toUpdate == null) { return false; }
+        // save the updated version
+        contratRepo.save(updatedContrat);
+        return true;
     }
 
 

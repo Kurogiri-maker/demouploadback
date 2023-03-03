@@ -102,6 +102,17 @@ public class TiersController {
     }
 
 
+    @CrossOrigin
+    @PatchMapping("/edit")
+    public ResponseEntity<Void> updateTiers(@RequestBody Tiers tiers){
+
+        boolean updated = fileService.update(tiers);
+        return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
+    }
+
+
 
 
 }

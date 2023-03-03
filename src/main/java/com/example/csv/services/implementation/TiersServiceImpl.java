@@ -82,6 +82,16 @@ public class TiersServiceImpl implements TiersService {
     }
 
 
+    @Override
+    public boolean update(Tiers updatedTiers) {
+        Tiers toUpdate = tiersRepo.findById(updatedTiers.getId()).orElse(null);
+        if (toUpdate == null) { return false; }
+
+        // save the updated version
+        tiersRepo.save(updatedTiers);
+        return true;
+
+
 
 
 }

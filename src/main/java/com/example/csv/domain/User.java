@@ -38,6 +38,14 @@ import java.util.List;
     }
 
     @Override
+
+        @Column(name = "verification_code", length = 64)
+        private String verificationCode;
+
+        private boolean enabled;
+
+        @Override
+
         public Collection<? extends GrantedAuthority> getAuthorities() {
             return List.of(new SimpleGrantedAuthority(role.name()));
         }

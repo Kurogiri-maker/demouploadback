@@ -19,4 +19,7 @@ public interface TiersService {
     void delete(Long id);
 
 
+
+    boolean update(Tiers tiers);
+
 }

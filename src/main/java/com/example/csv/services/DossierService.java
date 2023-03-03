@@ -18,4 +18,7 @@ public interface DossierService {
 
     Dossier save(Dossier dossier);
 
+    boolean update(Dossier dossier);
+
+
 }

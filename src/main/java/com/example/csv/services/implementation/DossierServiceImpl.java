@@ -1,6 +1,7 @@
 package com.example.csv.services.implementation;
 
 import com.example.csv.domain.Dossier;
+import com.example.csv.domain.Tiers;
 import com.example.csv.helper.CSVHelper;
 import com.example.csv.repositories.DossierRepository;
 import com.example.csv.services.DossierService;
@@ -47,6 +48,17 @@ public class DossierServiceImpl implements DossierService {
     public Dossier save(Dossier dossier) {
         Dossier dossier1 = dosRepo.save(dossier);
         return dossier1;
+    }
+
+
+    @Override
+    public boolean update(Dossier updatedDossier) {
+        Dossier toUpdate = dosRepo.findById(updatedDossier.getId()).orElse(null);
+        if (toUpdate == null) { return false; }
+
+        // save the updated version
+        dosRepo.save(updatedDossier);
+        return true;
     }
 
 
