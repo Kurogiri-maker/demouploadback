@@ -6,6 +6,7 @@ import com.example.csv.repositories.TiersRepository;
 import com.example.csv.services.TiersService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +20,36 @@ public class TiersServiceImpl implements TiersService {
     @Autowired
     private final TiersRepository tiersRepo;
 
+@Override
+    public List<Tiers> searchTiers(String numero, String nom, String siren, String refMandat) {
+        Specification<Tiers> specification = Specification.where(null);
 
-    @Override
+        if (numero != null && !numero.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("numero"), "%" + numero + "%"));
+        }
+
+        if (nom != null && !nom.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("nom"),  nom ));
+        }
+
+        if (siren != null && !siren.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("siren"), "%" + siren + "%"));
+        }
+
+        if (refMandat != null && !refMandat.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("refMandat"), "%" + refMandat + "%"));
+        }
+
+        return tiersRepo.findAll(specification);
+    }
+
+
+
+@Override
     public Tiers save(Tiers tiers) {
 
         return tiersRepo.save(tiers);
@@ -52,10 +81,7 @@ public class TiersServiceImpl implements TiersService {
         tiersRepo.deleteById(id);
     }
 
-    @Override
-    public void update() {
 
-    }
 
 
 }

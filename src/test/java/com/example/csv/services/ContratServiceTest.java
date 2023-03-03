@@ -6,7 +6,6 @@ import com.example.csv.repositories.ContratRepository;
 import com.example.csv.services.implementation.ContratServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Arrays;
-import org.junit.Rule;
 import org.junit.jupiter.api.*;
 import org.junit.rules.ExpectedException;
 import org.mockito.junit.MockitoJUnitRunner;

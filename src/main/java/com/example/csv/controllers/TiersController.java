@@ -25,6 +25,17 @@ public class TiersController {
     @Autowired
     private final TiersService fileService;
     @CrossOrigin
+
+
+    @GetMapping("/Search")
+    public List<Tiers> searchTiers(@RequestParam(required = false) String numero,
+                                   @RequestParam(required = false) String nom,
+                                   @RequestParam(required = false) String siren,
+                                   @RequestParam(required = false) String refMandat) {
+        return fileService.searchTiers(numero, nom, siren, refMandat);
+    }
+
+    @CrossOrigin
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file)  {
         String message = "";
@@ -90,35 +101,6 @@ public class TiersController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
-    @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateTiers(@PathVariable("id") Long id ,@RequestBody TiersDTO tiersDTO){
-
-        Tiers tiers = fileService.getTiers(id);
-        TiersDTO d = new TiersDTO();
-        if(tiers == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        if(tiersDTO.getNom() == null){
-            d.setNom(tiers.getNom());
-        }else {
-            d.setNom(tiersDTO.getNom());
-        }
-        if(tiersDTO.getSiren() == null){
-            d.setSiren(tiers.getSiren());
-        }else {
-            d.setSiren(tiersDTO.getSiren());
-        }
-        if(tiersDTO.getRef_mandat() == null){
-            d.setRef_mandat(tiers.getRef_mandat());
-        }else {
-            d.setRef_mandat(tiersDTO.getRef_mandat());
-        }
-        fileService.update();
-        return new ResponseEntity<>(HttpStatus.OK);
-
-
-    }
 
 
 

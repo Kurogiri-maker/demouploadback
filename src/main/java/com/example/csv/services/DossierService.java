@@ -17,6 +17,5 @@ public interface DossierService {
     void delete(Long id);
 
     Dossier save(Dossier dossier);
-    void update( Long id, String dossier_DC, String listSDC, String n_DPS, String montant_du_pres);
 
 }
