@@ -7,7 +7,6 @@ import com.example.csv.services.implementation.ContratServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.*;
-import org.junit.rules.ExpectedException;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

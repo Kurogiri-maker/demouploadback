@@ -15,7 +15,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Entity
 @Table(name = "_user")
     public class User implements UserDetails {
@@ -37,7 +36,7 @@ import java.util.List;
         this.role = role;
     }
 
-    @Override
+
 
         @Column(name = "verification_code", length = 64)
         private String verificationCode;
