@@ -21,5 +21,6 @@ public interface TiersService {
 
 
     boolean update(Tiers tiers);
+    List<Tiers> getAllTiers(Integer pageNo, Integer pageSize, String sortBy);
 
 }
