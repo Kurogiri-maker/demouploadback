@@ -109,8 +109,19 @@ public class TiersController {
         boolean updated = fileService.update(tiers);
         return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-
     }
+
+    @GetMapping("/p")
+    public ResponseEntity<List<Tiers>> getAllTiers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size,
+            @RequestParam(defaultValue = "id") String sortBy
+    )
+    {
+        List<Tiers> list = fileService.getAllTiers(page, size, sortBy);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 
 
 

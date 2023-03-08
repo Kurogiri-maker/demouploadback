@@ -100,4 +100,17 @@ public class TiersServiceImpl implements TiersService {
 
     }
 
+    @Override
+    public List<Tiers> getAllTiers(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Tiers> pagedResult = tiersRepo.findAll(paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Tiers>();
+        }
+    }
+
 }
