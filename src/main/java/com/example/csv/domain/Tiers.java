@@ -17,7 +17,6 @@ import javax.persistence.Id;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 public class Tiers {
 
     @Id

@@ -31,8 +31,8 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
 
-   @Autowired
-    private JavaMailSender mailSender;
+  /* @Autowired
+    private JavaMailSender mailSender;*/
 
     public AuthenticationResponse register(RegisterRequest request) throws MessagingException, UnsupportedEncodingException {
         Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
