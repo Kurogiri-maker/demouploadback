@@ -51,14 +51,9 @@ public class ContratController {
     }
     @CrossOrigin
     @PostMapping
-    public ResponseEntity<Contrat> save(@RequestBody Contrat contrat){
+    public Contrat save(@RequestBody Contrat contrat){
 
-        if(!(fileService.getContrat(contrat.getId()) == null)){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        Contrat savedContrat = fileService.save(contrat);
-        return new ResponseEntity<>(savedContrat,HttpStatus.CREATED);
+        return  fileService.save(contrat);
     }
 
     @CrossOrigin
