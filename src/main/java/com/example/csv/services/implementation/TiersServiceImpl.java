@@ -20,7 +20,7 @@ public class TiersServiceImpl implements TiersService {
     @Autowired
     private final TiersRepository tiersRepo;
 
-@Override
+    @Override
     public List<Tiers> searchTiers(String numero, String nom, String siren, String refMandat) {
         Specification<Tiers> specification = Specification.where(null);
 
@@ -31,7 +31,7 @@ public class TiersServiceImpl implements TiersService {
 
         if (nom != null && !nom.isEmpty()) {
             specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get("nom"),  nom ));
+                    criteriaBuilder.like(root.get("nom"), nom));
         }
 
         if (siren != null && !siren.isEmpty()) {
@@ -48,8 +48,7 @@ public class TiersServiceImpl implements TiersService {
     }
 
 
-
-@Override
+    @Override
     public Tiers save(Tiers tiers) {
 
         return tiersRepo.save(tiers);
@@ -85,13 +84,14 @@ public class TiersServiceImpl implements TiersService {
     @Override
     public boolean update(Tiers updatedTiers) {
         Tiers toUpdate = tiersRepo.findById(updatedTiers.getId()).orElse(null);
-        if (toUpdate == null) { return false; }
+        if (toUpdate == null) {
+            return false;
+        }
 
         // save the updated version
         tiersRepo.save(updatedTiers);
         return true;
 
 
-
-
+    }
 }

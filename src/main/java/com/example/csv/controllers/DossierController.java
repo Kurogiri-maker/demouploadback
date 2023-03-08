@@ -91,7 +91,7 @@ public class DossierController {
     }
 
 
-  }
+
 
     @CrossOrigin
     @PatchMapping("/edit")

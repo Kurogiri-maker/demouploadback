@@ -3,7 +3,9 @@ package com.example.csv.auth;
 import com.example.csv.config.JwtService;
 import com.example.csv.domain.Role;
 import com.example.csv.domain.User;
+import com.example.csv.domain.UserRole;
 import com.example.csv.exceptions.auth.AlreadyExistsException;
+import com.example.csv.repositories.RoleRepository;
 import com.example.csv.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +27,17 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+
+    @Autowired
+    private RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
 
-   @Autowired
-    private JavaMailSender mailSender;
+ //  @Autowired
+   // private JavaMailSender mailSender;
 
     public AuthenticationResponse register(RegisterRequest request) throws MessagingException, UnsupportedEncodingException {
         Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
@@ -41,12 +46,13 @@ public class AuthenticationService {
             return AuthenticationResponse.builder().token(null)
                     .error("User already registered").build();
         } else {
+            UserRole user1 = roleRepository.findByRole(Role.CONSULTANT);
             var user = User.builder()
                     .firstName(request.getFirstName())
                     .lastName(request.getLastName())
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
-                    .role(Role.CONSULTANT)
+                    .role(user1)
                     .enabled(false)
                     .build();
             userRepository.save(user);
