@@ -25,18 +25,11 @@ import java.util.List;
         private String lastName;
         private String email;
         private String password;
-        @Enumerated(EnumType.STRING)
-        private Role role;
-
-    public User(String firstName, String lastName, String email, String password, Role role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
 
+
+        @ManyToOne(cascade = CascadeType.ALL)
+        private UserRole role;
 
         @Column(name = "verification_code", length = 64)
         private String verificationCode;
@@ -46,7 +39,7 @@ import java.util.List;
         @Override
 
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return List.of(new SimpleGrantedAuthority(role.name()));
+            return List.of(new SimpleGrantedAuthority(role.getRole().toString()));
         }
 
         @Override
