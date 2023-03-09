@@ -56,9 +56,7 @@ public class ContratServiceImpl implements ContratService {
 
     @Override
     public boolean update(Contrat updatedContrat) {
-        Contrat toUpdate = contratRepo.findById(updatedContrat.getId()).orElse(null);
-        if (toUpdate == null) { return false; }
-        // save the updated version
+
         contratRepo.save(updatedContrat);
         return true;
     }

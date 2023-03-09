@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -30,7 +31,8 @@ import static org.mockito.Mockito.*;
 class ContratServiceTest {
 
 
-
+@Autowired
+private ContratRepository contratRepository;
     @Autowired
     private ContratService contratService ;
     @Test
@@ -71,6 +73,162 @@ class ContratServiceTest {
 
     }
 
+    @Test
+    void testGetContrat() {
+        Contrat contrat = new Contrat(
+                null,
+                "num_dossier",
+                "num_cp",
+                "raison_Social",
+                "id_Tiers",
+                "num_dc",
+                "num_sdc",
+                "num_cir",
+                "num_siren",
+                "ref_coll",
+                "code_produit",
+                "id_de_offre_comm",
+                "chef_de_file",
+                "num_ovi",
+                "num_rum",
+                "typeenregie",
+                "produit_comm",
+                "produit",
+                "phase",
+                "montant_pret");
+
+        //then
+        Contrat c= contratService.save(contrat);
+
+        Long id_expected = c.getId();
+
+        Long actual= contratService.getContrat(c.getId()).getId();
+
+
+        assertEquals(id_expected, actual);
+        log.info(" id contrat"+ c.getId());
+
+    }
+
+
+
+    @Order(2)
+    @Test
+    void updateContrat(){
+        Contrat contrat = new Contrat(
+                null,
+                "num_dossier",
+                "num_cp",
+                "raison_Social",
+                "id_Tiers",
+                "num_dc",
+                "num_sdc",
+                "num_cir",
+                "num_siren",
+                "ref_coll",
+                "code_produit",
+                "id_de_offre_comm",
+                "chef_de_file",
+                "num_ovi",
+                "num_rum",
+                "typeenregie",
+                "produit_comm",
+                "produit",
+                "phase",
+                "montant_pret");
+
+        //then
+        Contrat c= contratService.save(contrat);
+
+        Long id = c.getId();
+
+        log.info("id object1 : "+id);
+        Contrat updatedContrat = new Contrat(
+                id,
+                "num_dossier",
+                "imen",
+                "raison_Social",
+                "id_Tiers",
+                "num_dc",
+                "num_sdc",
+                "num_cir",
+                "num_siren",
+                "ref_coll",
+                "code_produit",
+                "id_de_offre_comm",
+                "chef_de_file",
+                "num_ovi",
+                "num_rum",
+                "typeenregie",
+                "produit_comm",
+                "produit",
+                "phase",
+                "montant_pret");
+
+
+
+     //   log.info("id object2 : "+updatedContrat.getId());
+
+       // log.info("numCpobjet 2"+ updatedContrat.getNum_CP() );
+       // log.info("numCpobjet 2"+ contrat.getNum_CP() );
+
+
+        contratService.update(updatedContrat);
+
+        assertEquals("imen",contratService.getContrat(id).getNum_CP());
+       // log.info("hhhhhhhhhhhhhhh"+ updatedContrat.getNum_CP() );
+
+
+
+
+
+
+    }
+
+    @Test
+    @Order(3)
+    void delete() {
+        int size = contratService.getAllContrat().size();
+        log.info("avantsupp"+size);
+        Contrat contrat = new Contrat(
+                null,
+                "num_dossier",
+                "num_cp",
+                "raison_Social",
+                "id_Tiers",
+                "num_dc",
+                "num_sdc",
+                "num_cir",
+                "num_siren",
+                "ref_coll",
+                "code_produit",
+                "id_de_offre_comm",
+                "chef_de_file",
+                "num_ovi",
+                "num_rum",
+                "typeenregie",
+                "produit_comm",
+                "produit",
+                "phase",
+                "montant_pret");
+
+        //then
+        Contrat c= contratService.save(contrat);
+
+        Long id = c.getId();
+
+        log.info("id object1 : "+id);
+
+
+        contratService.delete(id);
+
+
+        log.info("contrat size : "+contratService.getAllContrat().size());
+
+        assertEquals(size,contratService.getAllContrat().size());
+
+
+    }
 
     @Test
     void testSaveFile()  {
@@ -104,32 +262,11 @@ class ContratServiceTest {
                 "blcbp",
                 "poocm",
                 "yobnt"));
-
-
-
-
         // Act
 
         contratService.saveFile(csvFile);
 
-
-
-        // Contrat c = contratService.getContrat(0L);
-
-
-        // Assert
-        // assertEquals(contrats.get(0),c);
-
         assertEquals(expected,contratService.getAllContrat().size());
-        //log
-
-        log.info("expected   "+ contrats.get(0).getNum_CIR());
-        log.info("actual   "+ contratService.getAllContrat().get(0).getNum_CIR());
-
-
-
-
-
     }
 
     @Test
@@ -171,60 +308,5 @@ class ContratServiceTest {
         assertEquals(expectedContrats, actualContrats);
         verify(mockRepo).findAll();
     }
-    @Test
-    void testGetContrat() {
-        Contrat contrat = new Contrat(
-                null,
-                "num_dossier",
-                "num_cp",
-                "raison_Social",
-                "id_Tiers",
-                "num_dc",
-                "num_sdc",
-                "num_cir",
-                "num_siren",
-                "ref_coll",
-                "code_produit",
-                "id_de_offre_comm",
-                "chef_de_file",
-                "num_ovi",
-                "num_rum",
-                "typeenregie",
-                "produit_comm",
-                "produit",
-                "phase",
-                "montant_pret");
 
-        //then
-        Contrat c= contratService.save(contrat);
-
-        Long id_expected = c.getId();
-
-        Long actual= contratService.getContrat(c.getId()).getId();
-
-
-        assertEquals(id_expected, actual);
-        log.info(" id contrat"+ c.getId());
-
-    }
-
-    @Test
-    @Order(2)
-    void delete() {
-
-
-        List<Contrat> contrats = contratService.getAllContrat();
-        int size = contrats.size();
-        log.info("contrat size : "+size);
-        Contrat contrat = contrats.get(0);
-
-
-        Long id= contrat.getId();
-
-        contratService.delete(id);
-        log.info("contrat size : "+contratService.getAllContrat().size());
-        assertEquals(0,contratService.getAllContrat().size());
-
-
-    }
 }
