@@ -55,7 +55,7 @@ public class DossierController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        Dossier savedDossier = fileService.save(dossier);
+        Dossier savedDossier = fileService.addNewDossier(dossier);
         return new ResponseEntity<>(savedDossier,HttpStatus.CREATED);
     }
     @CrossOrigin

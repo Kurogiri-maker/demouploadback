@@ -10,9 +10,11 @@ import com.example.csv.services.DossierService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,14 +30,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@DataJpaTest
 
+@ExtendWith(MockitoExtension.class)
 @Slf4j
-
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DossierServiceImplTest {
     @Mock
-    private DossierRepository dossierRepo;
+    private DossierRepository dossierRepo ;
     private DossierService dossierService ;
 
     @BeforeEach
@@ -47,7 +48,7 @@ class DossierServiceImplTest {
 
 
     @Test
-    void save() {
+    void canAddDossier() {
         Dossier dossier = new Dossier(
                 null,
                 "hbvba",
@@ -56,20 +57,16 @@ class DossierServiceImplTest {
                 "ihynr",
                 "jxudn");
 
-        //then
-
-        dossierService.save(dossier);
+        //When
+        dossierService.addNewDossier(dossier);
 
         ArgumentCaptor<Dossier> dossierArgumentCaptor = ArgumentCaptor.forClass(Dossier.class);
         verify(dossierRepo).save(dossierArgumentCaptor.capture());
-
         Dossier capturedDossier = dossierArgumentCaptor.getValue();
+
+
         //then
         assertEquals(capturedDossier,dossier);
-
-        log.info(""+capturedDossier);
-        log.info(""+dossier);
-
 
     }
     @Test
@@ -193,7 +190,6 @@ class DossierServiceImplTest {
     }
         @Test
     void getAllDossiers() {
-
             // create some test data
             Dossier dossier1 = new Dossier(31l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
             Dossier dossier2= new Dossier(32l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
@@ -211,9 +207,6 @@ class DossierServiceImplTest {
             List<Dossier> actualDossier = dossierService.getAllDossiers();
             assertEquals(expectedDossier, actualDossier);
             verify(mockRepo).findAll();
-
-
-
     }
 
 

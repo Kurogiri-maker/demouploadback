@@ -1,9 +1,10 @@
-package com.example.csv.services;
+package com.example.csv.services.implementation;
 
 import antlr.ASTNULLType;
 import com.example.csv.domain.Contrat;
 import com.example.csv.helper.CSVHelper;
 import com.example.csv.repositories.ContratRepository;
+import com.example.csv.services.ContratService;
 import com.example.csv.services.implementation.ContratServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-@DataJpaTest
+
 
 @Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

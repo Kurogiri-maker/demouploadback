@@ -4,10 +4,7 @@ import com.example.csv.domain.Dossier;
 import com.example.csv.helper.CSVHelper;
 import com.example.csv.repositories.DossierRepository;
 import com.example.csv.services.DossierService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,9 +13,9 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DossierServiceImpl implements DossierService {
-    @Autowired
+
     private final DossierRepository dosRepo;
 
     @Override
@@ -29,8 +26,8 @@ public class DossierServiceImpl implements DossierService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
+
 
     public List<Dossier> getAllDossiers() {
         return dosRepo.findAll();
@@ -47,9 +44,8 @@ public class DossierServiceImpl implements DossierService {
     }
 
     @Override
-    public Dossier save(Dossier dossier) {
-        Dossier dossier1 = dosRepo.save(dossier);
-        return dossier1;
+    public Dossier addNewDossier(Dossier dossier) {
+        return dosRepo.save(dossier);
     }
 
 
