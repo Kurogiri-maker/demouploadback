@@ -7,6 +7,7 @@ import com.example.csv.services.DossierService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -102,6 +103,16 @@ public class DossierController {
 
 
     }
+    @GetMapping("/get/{field}")
+    public List<Dossier> getDossierWithSorting( @PathVariable String field){
+        List<Dossier> AllDossiers = fileService.findDossierWithSorting(field);
+        return AllDossiers;
+    }
+
+
+
+
+
 
 
 }

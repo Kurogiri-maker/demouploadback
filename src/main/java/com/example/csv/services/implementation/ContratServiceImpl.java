@@ -24,8 +24,7 @@ public class ContratServiceImpl implements ContratService {
 
     @Override
     public Contrat save(Contrat contrat) {
-        contratRepo.save(contrat);
-        return contrat;
+        return contratRepo.save(contrat);
     }
 
     @Override
