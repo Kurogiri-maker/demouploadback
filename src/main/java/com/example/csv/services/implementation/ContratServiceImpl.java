@@ -24,21 +24,16 @@ public class ContratServiceImpl implements ContratService {
 
     @Override
     public Contrat save(Contrat contrat) {
-        return contratRepo.save(contrat);
-    }
-
+        return contratRepo.save(contrat);}
     @Override
     public void saveFile(MultipartFile file) {
 
         try {
             List<Contrat> contrats = CSVHelper.csvToContrats(file.getInputStream());
             contratRepo.saveAll(contrats);
-
-
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-    }
+        }}
         public List<Contrat> getAllContrat() {
         return contratRepo.findAll();
     }
@@ -47,12 +42,10 @@ public class ContratServiceImpl implements ContratService {
     public Contrat getContrat(Long id) {
         return contratRepo.findById(id).get();
     }
-
     @Override
     public void delete(Long id) {
         contratRepo.deleteById(id);
     }
-
     @Override
     public boolean update(Contrat updatedContrat) {
 

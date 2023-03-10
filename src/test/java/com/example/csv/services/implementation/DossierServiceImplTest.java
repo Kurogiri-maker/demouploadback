@@ -2,15 +2,17 @@ package com.example.csv.services.implementation;
 
 import com.example.csv.domain.Contrat;
 import com.example.csv.domain.Dossier;
+import com.example.csv.helper.CSVHelper;
 import com.example.csv.repositories.ContratRepository;
 import com.example.csv.repositories.DossierRepository;
 import com.example.csv.services.ContratService;
 import com.example.csv.services.DossierService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.Assert;
+import org.junit.jupiter.api.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,28 +23,31 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@DataJpaTest
 
 @Slf4j
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DossierServiceImplTest {
-
-
-
-    @Autowired
+    @Mock
+    private DossierRepository dossierRepo;
     private DossierService dossierService ;
-    @Order(1)
+
+    @BeforeEach
+    void setUp() {
+        dossierService= new DossierServiceImpl(dossierRepo);
+    }
+
+
+
+
     @Test
     void save() {
-        int size = dossierService.getAllDossiers().size();
-        int expected = size+1;
-        //given
-
         Dossier dossier = new Dossier(
                 null,
                 "hbvba",
@@ -52,21 +57,25 @@ class DossierServiceImplTest {
                 "jxudn");
 
         //then
+
         dossierService.save(dossier);
 
+        ArgumentCaptor<Dossier> dossierArgumentCaptor = ArgumentCaptor.forClass(Dossier.class);
+        verify(dossierRepo).save(dossierArgumentCaptor.capture());
 
+        Dossier capturedDossier = dossierArgumentCaptor.getValue();
+        //then
+        assertEquals(capturedDossier,dossier);
 
-        assertEquals(expected,dossierService.getAllDossiers().size());
+        log.info(""+capturedDossier);
+        log.info(""+dossier);
 
-        long id = dossierService.getDossier(dossier.getId()).getId();
-        log.info("id:"+id);
-        dossierService.delete(id);
 
     }
     @Test
     void getDossier() {
-        Dossier dossier = new Dossier(
-                null,
+        Dossier expectedDossier = new Dossier(
+                31L,
                 "hbvba",
                 "1",
                 "ikhog",
@@ -74,17 +83,14 @@ class DossierServiceImplTest {
                 "jxudn");
 
         //then
-        Dossier dossier1=dossierService.save(dossier);
+        when(dossierRepo.findById(31L)).thenReturn(Optional.of(expectedDossier));
+        Dossier actualDossier = dossierService.getDossier(31L);
+        assertEquals(expectedDossier, actualDossier);
+        verify(dossierRepo).findById(31L);
 
-        Long id_expected = dossier1.getId();
+        log.info(""+expectedDossier);
+        log.info(""+actualDossier);
 
-        Long actual= dossierService.getDossier(id_expected).getId();
-
-
-        assertEquals(id_expected, actual);
-        log.info(" id contrat"+ id_expected);
-
-        dossierService.delete(id_expected);
 
     }
 
@@ -93,7 +99,7 @@ class DossierServiceImplTest {
 
 
         Dossier dossier = new Dossier(
-                null,
+                31L,
                 "hbvba",
                 "1",
                 "ikhog",
@@ -101,35 +107,9 @@ class DossierServiceImplTest {
                 "jxudn");
 
         //then
-        Dossier dossier1= dossierService.save(dossier);
-
-        Long id = dossier1.getId();
-        Dossier updatedDossier= new Dossier(
-                id,
-                "hbvba",
-                "5",
-                "ikhog",
-                "ihynr",
-                "jxudn");
-
-
-
-
-        log.info("id object1 : "+id);
-
-        //   log.info("id object2 : "+updatedContrat.getId());
-
-        // log.info("numCpobjet 2"+ updatedContrat.getNum_CP() );
-        // log.info("numCpobjet 2"+ contrat.getNum_CP() );
-
-
-        dossierService.update(updatedDossier);
-
-        assertEquals("5",dossierService.getDossier(id).getNumero());
-        // log.info("hhhhhhhhhhhhhhh"+ updatedContrat.getNum_CP() );
-
-
-        dossierService.delete(id);
+        boolean result = dossierService.update(dossier);
+        Mockito.verify(dossierRepo).save(dossier);
+        Assert.assertTrue(result);
 
 
 
@@ -147,20 +127,9 @@ class DossierServiceImplTest {
                 "jxudn");
 
         //then
-        Dossier dossier1= dossierService.save(dossier);
+        dossierService.delete(dossier.getId());
 
-        Long id = dossier1.getId();
-
-        log.info("id object1 : "+id);
-
-
-        dossierService.delete(id);
-
-
-        log.info("contrat size : "+dossierService.getAllDossiers().size());
-
-        assertEquals(size,dossierService.getAllDossiers().size());
-
+        Mockito.verify(dossierRepo).deleteById(dossier.getId());
 
     }
 
@@ -168,31 +137,42 @@ class DossierServiceImplTest {
 
     @Test
     void saveFile() {
-        int size = dossierService.getAllDossiers().size();
-        int expected= size+1;
+        // create a mock for the ContratRepository
 
-        String csvContent = "dossier_DC,Numero,ListSDC,N_DPS,Montant_du_pres\n"+
-                "hbvba,1,ikhog,ihynr,jxudn\n";
+        // create some test data
+        byte[] fileContent = "dossier_DC,Numero,ListSDC,N_DPS,Montant_du_pres\nhbvba,1,ikhog,ihynr,jxudn\nhbvba,1,ikhog,ihynr,jxudn\n".getBytes();
+        MockMultipartFile file = new MockMultipartFile("file.csv", "file.csv", "text/csv", fileContent);
 
-        MultipartFile csvFile = new MockMultipartFile("test.csv", csvContent.getBytes(StandardCharsets.UTF_8));
-        List<Dossier> dossiers= new ArrayList<>();
-        dossiers.add(new Dossier(
+        // create a list of expected Contrat objects
+        List<Dossier> expectedDossiers = new ArrayList<>();
+        expectedDossiers.add( new Dossier(
                 null,
                 "hbvba",
                 "1",
                 "ikhog",
                 "ihynr",
-                "jxudn"
+                "jxudn"));
 
-        ));
-        dossierService.saveFile(csvFile);
+        expectedDossiers.add( new Dossier(
+                null,
+                "hbvba",
+                "1",
+                "ikhog",
+                "ihynr",
+                "jxudn"));
 
-        assertEquals(expected,dossierService.getAllDossiers().size());
+        // create a mock CSVHelper that returns the expected Contrat objects
+        CSVHelper csvHelper = Mockito.mock(CSVHelper.class);
 
 
 
 
 
+        // call the method under test
+        dossierService.saveFile(file);
+
+        // verify that the ContratRepository.saveAll method was called with the expected Contrat objects
+        Mockito.verify(dossierRepo).saveAll(expectedDossiers);
 
     }
 
