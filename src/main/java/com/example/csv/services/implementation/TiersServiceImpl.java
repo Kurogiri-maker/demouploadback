@@ -25,33 +25,33 @@ public class TiersServiceImpl implements TiersService {
     @Autowired
     private final TiersRepository tiersRepo;
 
-    @Override
-    public List<Tiers> searchTiers(String numero, String nom, String siren, String refMandat) {
-        Specification<Tiers> specification = Specification.where(null);
-
-        if (numero != null && !numero.isEmpty()) {
-            specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get("numero"), "%" + numero + "%"));
-        }
-
-        if (nom != null && !nom.isEmpty()) {
-            specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get("nom"), nom));
-        }
-
-        if (siren != null && !siren.isEmpty()) {
-            specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get("siren"), "%" + siren + "%"));
-        }
-
-        if (refMandat != null && !refMandat.isEmpty()) {
-            specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get("refMandat"), "%" + refMandat + "%"));
-        }
-
-        return tiersRepo.findAll(specification);
-    }
-
+//    @Override
+//    public List<Tiers> searchTiers(String numero, String nom, String siren, String refMandat) {
+//        Specification<Tiers> specification = Specification.where(null);
+//
+//        if (numero != null && !numero.isEmpty()) {
+//            specification = specification.and((root, query, criteriaBuilder) ->
+//                    criteriaBuilder.like(root.get("numero"), "%" + numero + "%"));
+//        }
+//
+//        if (nom != null && !nom.isEmpty()) {
+//            specification = specification.and((root, query, criteriaBuilder) ->
+//                    criteriaBuilder.like(root.get("nom"), nom));
+//        }
+//
+//        if (siren != null && !siren.isEmpty()) {
+//            specification = specification.and((root, query, criteriaBuilder) ->
+//                    criteriaBuilder.like(root.get("siren"), "%" + siren + "%"));
+//        }
+//
+//        if (refMandat != null && !refMandat.isEmpty()) {
+//            specification = specification.and((root, query, criteriaBuilder) ->
+//                    criteriaBuilder.like(root.get("refMandat"), "%" + refMandat + "%"));
+//        }
+//
+//        return tiersRepo.findAll(specification);
+//    }
+//
 
     @Override
     public Tiers save(Tiers tiers) {
@@ -88,10 +88,7 @@ public class TiersServiceImpl implements TiersService {
 
     @Override
     public boolean update(Tiers updatedTiers) {
-        Tiers toUpdate = tiersRepo.findById(updatedTiers.getId()).orElse(null);
-        if (toUpdate == null) {
-            return false;
-        }
+
 
         // save the updated version
         tiersRepo.save(updatedTiers);
@@ -112,5 +109,6 @@ public class TiersServiceImpl implements TiersService {
             return new ArrayList<Tiers>();
         }
     }
+
 
 }

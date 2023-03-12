@@ -24,16 +24,16 @@ public class TiersController {
 
     @Autowired
     private final TiersService fileService;
-    @CrossOrigin
+//    @CrossOrigin
+//
 
-
-    @GetMapping("/Search")
-    public List<Tiers> searchTiers(@RequestParam(required = false) String numero,
-                                   @RequestParam(required = false) String nom,
-                                   @RequestParam(required = false) String siren,
-                                   @RequestParam(required = false) String refMandat) {
-        return fileService.searchTiers(numero, nom, siren, refMandat);
-    }
+//    @GetMapping("/Search")
+//    public List<Tiers> searchTiers(@RequestParam(required = false) String numero,
+//                                   @RequestParam(required = false) String nom,
+//                                   @RequestParam(required = false) String siren,
+//                                   @RequestParam(required = false) String refMandat) {
+//        return fileService.searchTiers(numero, nom, siren, refMandat);
+//    }
 
     @CrossOrigin
     @PostMapping("/upload")

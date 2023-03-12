@@ -113,8 +113,7 @@ class DossierServiceImplTest {
     }
     @Test
     void delete() {
-        int size = dossierService.getAllDossiers().size();
-        log.info("avantsupp"+size);
+
         Dossier dossier = new Dossier(
                 null,
                 "hbvba",
@@ -134,13 +133,13 @@ class DossierServiceImplTest {
 
     @Test
     void saveFile() {
-        // create a mock for the ContratRepository
+
 
         // create some test data
         byte[] fileContent = "dossier_DC,Numero,ListSDC,N_DPS,Montant_du_pres\nhbvba,1,ikhog,ihynr,jxudn\nhbvba,1,ikhog,ihynr,jxudn\n".getBytes();
         MockMultipartFile file = new MockMultipartFile("file.csv", "file.csv", "text/csv", fileContent);
 
-        // create a list of expected Contrat objects
+        // create a list of expected dossier objects
         List<Dossier> expectedDossiers = new ArrayList<>();
         expectedDossiers.add( new Dossier(
                 null,
@@ -158,7 +157,7 @@ class DossierServiceImplTest {
                 "ihynr",
                 "jxudn"));
 
-        // create a mock CSVHelper that returns the expected Contrat objects
+        // create a mock CSVHelper that returns the expected dossier objects
         CSVHelper csvHelper = Mockito.mock(CSVHelper.class);
 
 
@@ -168,7 +167,7 @@ class DossierServiceImplTest {
         // call the method under test
         dossierService.saveFile(file);
 
-        // verify that the ContratRepository.saveAll method was called with the expected Contrat objects
+        // verify that the dossierRepository.saveAll method was called with the expected dossier objects
         Mockito.verify(dossierRepo).saveAll(expectedDossiers);
 
     }
