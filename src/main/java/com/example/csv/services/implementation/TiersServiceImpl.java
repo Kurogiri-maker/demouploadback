@@ -1,5 +1,6 @@
 package com.example.csv.services.implementation;
 
+import com.example.csv.domain.GetAllType;
 import com.example.csv.domain.Tiers;
 import com.example.csv.helper.CSVHelper;
 import com.example.csv.repositories.TiersRepository;
@@ -101,16 +102,16 @@ public class TiersServiceImpl implements TiersService {
     }
 
     @Override
-    public List<Tiers> getAllTiers(Integer pageNo, Integer pageSize, String sortBy) {
+    public GetAllType<Tiers> getAllTiers(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-
+        Long count = tiersRepo.count();
+        
         Page<Tiers> pagedResult = tiersRepo.findAll(paging);
 
-        if(pagedResult.hasContent()) {
-            return pagedResult.getContent();
-        } else {
-            return new ArrayList<Tiers>();
-        }
+        GetAllType<Tiers>  result= new GetAllType<>();
+        result.setCount(count);
+        result.setRows(pagedResult.getContent());
+        return  result;
     }
 
 }

@@ -1,12 +1,18 @@
 package com.example.csv.services.implementation;
 
+import com.example.csv.domain.Contrat;
 import com.example.csv.domain.Dossier;
+import com.example.csv.domain.GetAllType;
 import com.example.csv.domain.Tiers;
 import com.example.csv.helper.CSVHelper;
 import com.example.csv.repositories.DossierRepository;
 import com.example.csv.services.DossierService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,6 +67,24 @@ public class DossierServiceImpl implements DossierService {
         return true;
     }
 
+    @Override
+    public GetAllType<Dossier> getAllDossiers(Integer pageNo, Integer pageSize, String sortBy, boolean asc) {
+        Sort.Direction direction = asc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(direction, sortBy));
+        Long count = dosRepo.count();
+
+        Page<Dossier> pagedResult = dosRepo.findAll(paging);
+
+        GetAllType<Dossier>  result= new GetAllType<>();
+        result.setCount(count);
+        result.setRows(pagedResult.getContent());
+        return  result;
+    }
+
+    @Override
+    public List<Dossier> findDossierWithSorting(String field) {
+        return dosRepo.findAll(Sort.by(Sort.Direction.ASC,field));
+    }
 
 
 }

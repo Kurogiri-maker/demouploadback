@@ -35,10 +35,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-
-
-  /* @Autowired
-    private JavaMailSender mailSender;*/
+    private final JavaMailSender mailSender;
 
 
 
@@ -60,7 +57,7 @@ public class AuthenticationService {
                     .build();
             userRepository.save(user);
             String siteURL="";
-            //sendVerificationEmail(user, siteURL);
+            sendVerificationEmail(user, siteURL);
             var jwtToken = jwtService.generateToken(user);
 
             return AuthenticationResponse.builder()
@@ -87,11 +84,11 @@ public class AuthenticationService {
 
     }
 
-    /*private void sendVerificationEmail(User user, String siteURL)
+    private void sendVerificationEmail(User user, String siteURL)
             throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
         String fromAddress = "Company@gmail.com";
-        String senderName = "Company name";
+        String senderName = "CDZ";
         String subject = "Please verify your registration";
         String content = "Dear [[name]],<br>"
                 + "Please click the link below to verify your registration:<br>"
@@ -119,5 +116,5 @@ public class AuthenticationService {
     private String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
         return siteURL.replace(request.getServletPath(), "");
-    }*/
+    }
 }

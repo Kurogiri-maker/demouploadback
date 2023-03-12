@@ -57,20 +57,7 @@ public class DossierController {
         Dossier savedDossier = fileService.save(dossier);
         return new ResponseEntity<>(savedDossier,HttpStatus.CREATED);
     }
-    @CrossOrigin
-    @GetMapping ResponseEntity<List<Dossier>> getAllDossiers(){
-        try {
-            List<Dossier> dossiers = fileService.getAllDossiers();
 
-            if (dossiers.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(dossiers, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
     @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<Dossier> getDossier(@PathVariable("id") Long id){
@@ -102,6 +89,26 @@ public class DossierController {
 
 
     }
+    @CrossOrigin
+    @GetMapping
+    public ResponseEntity<GetAllType<Dossier>> getAllDossiers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "true") boolean asc
+    )
+    {
+        GetAllType<Dossier> data = fileService.getAllDossiers(page, size, sortBy, asc);
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{field}")
+    public List<Dossier> getDossierWithSorting( @PathVariable String field){
+        List<Dossier> AllDossiers = fileService.findDossierWithSorting(field);
+        return AllDossiers;
+    }
+
+
 
 
 }

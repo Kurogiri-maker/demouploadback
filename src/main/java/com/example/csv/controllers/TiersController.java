@@ -1,5 +1,6 @@
 package com.example.csv.controllers;
 
+import com.example.csv.domain.GetAllType;
 import com.example.csv.domain.ResponseMessage;
 import com.example.csv.domain.Tiers;
 import com.example.csv.DTO.TiersDTO;
@@ -69,20 +70,6 @@ public class TiersController {
         return new ResponseEntity<>(savedTiers,HttpStatus.CREATED);
     }
     @CrossOrigin
-    @GetMapping ResponseEntity<List<Tiers>> getAllTiers(){
-        try {
-            List<Tiers> tiers = fileService.getAllTiers();
-
-            if (tiers.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(tiers, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<Tiers> getTiers(@PathVariable("id")Long id){
         Tiers tiers = fileService.getTiers(id);
@@ -110,16 +97,16 @@ public class TiersController {
         return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
-
-    @GetMapping("/p")
-    public ResponseEntity<List<Tiers>> getAllTiers(
+    @CrossOrigin
+    @GetMapping
+    public ResponseEntity<GetAllType<Tiers>> getAllTiers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size,
+            @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "id") String sortBy
     )
     {
-        List<Tiers> list = fileService.getAllTiers(page, size, sortBy);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        GetAllType<Tiers> data = fileService.getAllTiers(page, size, sortBy);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
 

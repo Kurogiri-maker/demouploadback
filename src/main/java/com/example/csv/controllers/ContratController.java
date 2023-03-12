@@ -1,9 +1,6 @@
 package com.example.csv.controllers;
 
-import com.example.csv.domain.Contrat;
-import com.example.csv.domain.Dossier;
-import com.example.csv.domain.ResponseMessage;
-import com.example.csv.domain.Tiers;
+import com.example.csv.domain.*;
 import com.example.csv.helper.CSVHelper;
 import com.example.csv.services.CSVService;
 import com.example.csv.services.ContratService;
@@ -57,23 +54,6 @@ public class ContratController {
     }
 
     @CrossOrigin
-    @GetMapping
-
-    public ResponseEntity<List<Contrat>> getAllContrat() {
-        try {
-            List<Contrat> contrats = fileService.getAllContrat();
-
-            if (contrats.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(contrats, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<Contrat> getContrat(@PathVariable("id") Long id){
         Contrat contrat = fileService.getContrat(id);
@@ -99,5 +79,19 @@ public class ContratController {
         boolean updated = fileService.update(contrat);
         return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @CrossOrigin
+    @GetMapping
+    public ResponseEntity<GetAllType<Contrat>> getAllContrats(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "true") boolean asc
+    )
+    {
+        GetAllType<Contrat> data = fileService.getAllContrats(page, size, sortBy, asc);
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
 
 }
