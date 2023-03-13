@@ -60,14 +60,11 @@ public class TiersController {
     }
     @CrossOrigin
     @PostMapping
-    public ResponseEntity<Tiers> save(@RequestBody Tiers tiers){
+    public Tiers save(@RequestBody Tiers tiers){
 
-        if(!(fileService.getTiers(tiers.getId()) == null)){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
 
-        Tiers savedTiers = fileService.save(tiers);
-        return new ResponseEntity<>(savedTiers,HttpStatus.CREATED);
+       return fileService.save(tiers);
+
     }
     @CrossOrigin
     @GetMapping("/{id}")

@@ -48,14 +48,9 @@ public class DossierController {
     }
     @CrossOrigin
     @PostMapping
-    public ResponseEntity<Dossier> save(@RequestBody Dossier dossier){
+    public Dossier save(@RequestBody Dossier dossier){
 
-        if(!(fileService.getDossier(dossier.getId()) == null)){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        Dossier savedDossier = fileService.save(dossier);
-        return new ResponseEntity<>(savedDossier,HttpStatus.CREATED);
+        return fileService.save(dossier);
     }
 
     @CrossOrigin

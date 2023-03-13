@@ -22,12 +22,15 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-
                 .csrf()
                 .disable()
                 .cors()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/swagger-ui/*","api/csv/**" ,"/swagger-resources/**", "/swagger-ui.html",
+                        "/v2/api-docs",
+                        "/webjars/**")
+                .permitAll()
                 .antMatchers("/auth/**")
                 .permitAll().antMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll()
