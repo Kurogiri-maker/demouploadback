@@ -59,10 +59,10 @@ public class DossierServiceImpl implements DossierService {
 
     @Override
     public boolean update(Dossier updatedDossier) {
-        Dossier toUpdate = dosRepo.findById(updatedDossier.getId()).orElse(null);
+       /* Dossier toUpdate = dosRepo.findById(updatedDossier.getId()).orElse(null);
         if (toUpdate == null) { return false; }
 
-        // save the updated version
+        // save the updated version*/
         dosRepo.save(updatedDossier);
         return true;
     }
