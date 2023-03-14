@@ -102,7 +102,9 @@ public class TiersServiceImpl implements TiersService {
     }
 
     @Override
-    public GetAllType<Tiers> getAllTiers(Integer pageNo, Integer pageSize, String sortBy) {
+    public GetAllType<Tiers> getAllTiers(Integer pageNo, Integer pageSize, String sortBy,boolean asc) {
+        Sort.Direction direction = asc ? Sort.Direction.ASC : Sort.Direction.DESC;
+
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         Long count = tiersRepo.count();
         

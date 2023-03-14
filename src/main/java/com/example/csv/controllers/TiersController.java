@@ -1,5 +1,6 @@
 package com.example.csv.controllers;
 
+import com.example.csv.domain.Dossier;
 import com.example.csv.domain.GetAllType;
 import com.example.csv.domain.ResponseMessage;
 import com.example.csv.domain.Tiers;
@@ -99,10 +100,11 @@ public class TiersController {
     public ResponseEntity<GetAllType<Tiers>> getAllTiers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "id") String sortBy
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "true") boolean asc
     )
     {
-        GetAllType<Tiers> data = fileService.getAllTiers(page, size, sortBy);
+        GetAllType<Tiers> data = fileService.getAllTiers(page, size, sortBy, asc);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
